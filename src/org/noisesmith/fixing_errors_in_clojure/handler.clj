@@ -1,5 +1,6 @@
 (ns org.noisesmith.fixing-errors-in-clojure.handler
   (:require [aleph.http :as http]
+            [ring.middleware.resource :refer [wrap-resource]]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]))
 
 (def app
@@ -7,6 +8,7 @@
         {:status 404
          :headers {"content-type" "text/plain"}
          :body (str "route " uri " not found")})
+      (wrap-resource "content")
       (wrap-defaults site-defaults)))
 
 (defn -main
